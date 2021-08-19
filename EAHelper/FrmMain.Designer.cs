@@ -44,7 +44,7 @@ namespace EAHelper
             // 
             this.notifyIcon.ContextMenuStrip = this.contextMenuStrip;
             this.notifyIcon.Icon = ((System.Drawing.Icon) (resources.GetObject("notifyIcon.Icon")));
-            this.notifyIcon.Text = "notifyIcon";
+            this.notifyIcon.Text = "EA助手";
             this.notifyIcon.Visible = true;
             // 
             // contextMenuStrip
