@@ -10,8 +10,10 @@ namespace EAHelper
         public FrmMain()
         {
             this.InitializeComponent();
+            this.WindowState = FormWindowState.Minimized;
+            this.ShowInTaskbar = false;
+            this.SetVisibleCore(false);
         }
-
 
         private void menuClose_Click(object sender, EventArgs e)
         {
