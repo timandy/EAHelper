@@ -22,6 +22,12 @@ namespace EAHelper
 
         private void timer_Tick(object sender, EventArgs e)
         {
+            this.ClickYes();
+            this.SetEANoTopMost();
+        }
+
+        private void ClickYes()
+        {
             IntPtr hwndDialog = UnsafeNativeMethods.FindWindow("#32770", "Unsaved Property Changes");
             if (hwndDialog == IntPtr.Zero)
                 return;
@@ -30,6 +36,23 @@ namespace EAHelper
             if (hwndYes == IntPtr.Zero)
                 return;
             Util.SendMouseClick(hwndYes, Point.Empty);
+        }
+
+        private void SetEANoTopMost()
+        {
+            UnsafeNativeMethods.EnumWindows(EnumWindowsFunc, null);
+        }
+
+        private static bool EnumWindowsFunc(IntPtr hwnd, object lpParam)
+        {
+            string text = Util.GetText(hwnd);
+            if (text.Contains("Enterprise Architect Ultimate Edition") && Util.IsTopMost(hwnd))
+            {
+                Util.SetNoTopMost(hwnd);
+                return false;
+            }
+
+            return true;
         }
     }
 }
