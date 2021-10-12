@@ -40,7 +40,7 @@ namespace EAHelper
 
         private void SetEANoTopMost()
         {
-            UnsafeNativeMethods.EnumWindows(EnumWindowsFunc, null);
+            UnsafeNativeMethods.EnumWindows(EnumWindowsFunc, NativeMethods.NULL);
         }
 
         private static bool EnumWindowsFunc(IntPtr hwnd, object lpParam)
