@@ -12,7 +12,7 @@ namespace EAHelper
             this.InitializeComponent();
             this.WindowState = FormWindowState.Minimized;
             this.ShowInTaskbar = false;
-            this.SetVisibleCore(false);
+            base.SetVisibleCore(false);
         }
 
         private void menuClose_Click(object sender, EventArgs e)
@@ -22,33 +22,34 @@ namespace EAHelper
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            this.ClickYes();
-            this.SetEANoTopMost();
+            ClickYes();
+            SetEaNoTopMost();
         }
 
-        private void ClickYes()
+        private static void ClickYes()
         {
-            IntPtr hwndDialog = UnsafeNativeMethods.FindWindow("#32770", "Unsaved Property Changes");
-            if (hwndDialog == IntPtr.Zero)
+            nint handDialog = UnsafeNativeMethods.FindWindow("#32770", "Unsaved Property Changes");
+            if (handDialog == nint.Zero)
                 return;
 
-            IntPtr hwndYes = UnsafeNativeMethods.FindWindowEx(hwndDialog, IntPtr.Zero, "Button", "Yes");
-            if (hwndYes == IntPtr.Zero)
+            nint handYes = UnsafeNativeMethods.FindWindowEx(handDialog, IntPtr.Zero, "Button", "Yes");
+            if (handYes == nint.Zero)
                 return;
-            Util.SendMouseClick(hwndYes, Point.Empty);
+            Util.SendMouseClick(handYes, Point.Empty);
         }
 
-        private void SetEANoTopMost()
+        private static void SetEaNoTopMost()
         {
             UnsafeNativeMethods.EnumWindows(EnumWindowsFunc, NativeMethods.NULL);
         }
 
-        private static bool EnumWindowsFunc(IntPtr hwnd, object lpParam)
+        private static bool EnumWindowsFunc(nint hand, object lpParam)
         {
-            string text = Util.GetText(hwnd);
-            if (text.Contains("Enterprise Architect Ultimate Edition") && Util.IsTopMost(hwnd))
+            string text = Util.GetText(hand);
+            // ReSharper disable once InvertIf
+            if (text.Contains("Enterprise Architect Ultimate Edition") && Util.IsTopMost(hand))
             {
-                Util.SetNoTopMost(hwnd);
+                Util.SetNoTopMost(hand);
                 return false;
             }
 
